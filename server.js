@@ -16,7 +16,12 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(cors());
-app.use(helmet());
+app.use(
+  helmet({
+    frameguard: false, // disables the x-frame-options header
+    contentSecurityPolicy: false, // disables CSP entirely (or adjust as shown below)
+  })
+);
 app.use(morgan("dev"));
 app.use(cors({ origin: '*' }))
 app.use((req, res, next) => {
