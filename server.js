@@ -66,7 +66,6 @@ const authenticateToken = (req, res, next) => {
 // Define a schema for client onboarding data
 const clientOnboardingSchema = new mongoose.Schema({
   email: { type: String, required: true },
-  tenantId: { type: String, required: true }, // Tenant ID corresponds to the username
   GCP_USE_BILLING_DATA: { type: Boolean, default: false },
   GCP_USE_CARBON_FREE_ENERGY_PERCENTAGE: { type: Boolean, default: false },
   GCP_BILLING_PROJECT_ID: { type: String },
