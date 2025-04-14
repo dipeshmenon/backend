@@ -17,6 +17,12 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(cors({ origin: '*' }))
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Allow cross-origin requests
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
+  next();
+});
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET; //
@@ -192,6 +198,18 @@ app.post("/api/start-tenant", (req, res) => {
   });
 });
 
+app.get("/proxy", (req, res) => {
+  const targetUrl = "https://evolving-toucan-wealthy.ngrok-free.app/";
+
+  const options = {
+    url: targetUrl,
+    headers: {
+      "ngrok-skip-browser-warning": "true", // Add your custom header here
+    },
+  };
+
+  request(options).pipe(res);
+});
 // ----------------------
 
 
