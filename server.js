@@ -205,7 +205,7 @@ app.post("/api/start-tenant", (req, res) => {
   });
 });
 
-aapp.get("/proxy", (req, res) => {
+app.get("/proxy", (req, res) => {
   const targetUrl = "https://evolving-toucan-wealthy.ngrok-free.app/";
   // Set the custom header on the response
   res.setHeader("ngrok-skip-browser-warning", "true");
