@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const request = require("request");
 const multer = require("multer");
 const cors = require("cors");
 const fs = require("fs");
