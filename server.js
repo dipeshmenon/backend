@@ -206,26 +206,18 @@ app.post("/api/start-tenant", (req, res) => {
 });
 
 app.get("/proxy", async (req, res) => {
-  const targetUrl = "https://evolving-toucan-wealthy.ngrok-free.app/";
-  try {
-    // Make a request to the target URL with your custom header(s)
-    const response = await axios.get(targetUrl, {
-      headers: {
-        "ngrok-skip-browser-warning": "true",
-        // Alternatively, a custom User-Agent:
-        //"User-Agent": "My-Custom-User-Agent/1.0"
-      },
-      responseType: 'stream', // stream the response
-    });
-    // Optionally set the content type on the proxy response as needed
-    res.set("Content-Type", response.headers["content-type"]);
-    // Pipe the response from the target server to the client
-    response.data.pipe(res);
-  } catch (error) {
-    console.error("Error on proxy:", error);
-    res.status(500).send("Internal Server Error");
-  }
+  const response = await fetch("https://evolving-toucan-wealthy.ngrok-free.app/", {
+    headers: {
+      "ngrok-skip-browser-warning": "true",
+      "User-Agent": "CustomAgent/1.0"
+    }
+  });
+
+  const html = await response.text();
+  res.set("Content-Type", "text/html");
+  res.send(html);
 });
+
 
 
 
