@@ -205,20 +205,12 @@ app.post("/api/start-tenant", (req, res) => {
   });
 });
 
-app.get("/proxy", async (req, res) => {
+aapp.get("/proxy", (req, res) => {
   const targetUrl = "https://evolving-toucan-wealthy.ngrok-free.app/";
-  try {
-    const response = await axios.get(targetUrl, {
-      headers: {
-        "ngrok-skip-browser-warning": "true",
-      },
-      responseType: 'stream', // Streams the response similar to request().pipe()
-    });
-    response.data.pipe(res);
-  } catch (error) {
-    console.error("Error on proxy:", error);
-    res.status(500).send("Internal Server Error");
-  }
+  // Set the custom header on the response
+  res.setHeader("ngrok-skip-browser-warning", "true");
+  // Perform an HTTP redirect to the target URL
+  res.redirect(targetUrl);
 });
 // ----------------------
 
