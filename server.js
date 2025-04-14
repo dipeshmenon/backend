@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const request = require("request");
 const multer = require("multer");
+const axios = require("axios");
 const cors = require("cors");
 const fs = require("fs");
 const helmet = require("helmet");
@@ -199,17 +200,20 @@ app.post("/api/start-tenant", (req, res) => {
   });
 });
 
-app.get("/proxy", (req, res) => {
+app.get("/proxy", async (req, res) => {
   const targetUrl = "https://evolving-toucan-wealthy.ngrok-free.app/";
-
-  const options = {
-    url: targetUrl,
-    headers: {
-      "ngrok-skip-browser-warning": "true", // Add your custom header here
-    },
-  };
-
-  request(options).pipe(res);
+  try {
+    const response = await axios.get(targetUrl, {
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+      },
+      responseType: 'stream', // Streams the response similar to request().pipe()
+    });
+    response.data.pipe(res);
+  } catch (error) {
+    console.error("Error on proxy:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 // ----------------------
 
