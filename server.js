@@ -209,7 +209,6 @@ app.get("/proxy", async (req, res) => {
   const response = await fetch("https://evolving-toucan-wealthy.ngrok-free.app/", {
     headers: {
       "ngrok-skip-browser-warning": "true",
-      "User-Agent": "CustomAgent/1.0"
     }
   });
 
